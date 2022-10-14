@@ -13,26 +13,27 @@ function App() {
     if (datasetsNr > datasets.length) {
       setDatasets(datasets.concat([{text: "nový dataset"}]));
       console.log(datasets);
-    } else if (datasetsNr < datasets.length && 0 < datasetsNr) {
-      setDatasets(datasets.pop());
+    } 
+    if (datasetsNr < datasets.length) {
+      setDatasets(datasets.slice(0, datasets.length-1));
       console.log(datasets);
-    }
+    } 
 
   }, [datasetsNr])
   
 
   return (
     <div className="App">
-      <label>Titulek: <input type="text" onChange={(e) => { setTitle(e.target.value) }} /></label> <br />
-      <label>Počet datasetů: <input type="number" onChange={(e) => { setDatasetsNr(e.target.value) }} /></label> <br />
-      <label>Šířka grafu: <input type="number" onChange={(e) => { setWidth(e.target.value) }} /></label> <br />
-      {datasets.map((e) => {
+      <label>Titulek: <input type="text" value={title} onChange={(e) => { setTitle(e.target.value) }} /></label> <br />
+      <label>Počet datasetů: <input type="number" value={datasetsNr} onChange={(e) => { setDatasetsNr(e.target.value) }} /></label> <br />
+      <label>Šířka grafu: <input type="number" value={width} onChange={(e) => { setWidth(e.target.value) }} /></label> <br />
+      {datasets.map((e, index) => {
         return (
-          <p key={Math.floor(Math.random() * 100)}>ahoj {e.text}</p>
+          <p key={index}>ahoj {index} {e.text}</p>
         )
       })}
       <div style={{display: "block", width: width + "px" }} >
-        <LineGraph datasets={datasetsNr} title={title} />
+        <LineGraph datasets={datasets} title={title} />
       </div>
     </div>
   );

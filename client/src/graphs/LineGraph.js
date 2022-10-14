@@ -24,7 +24,7 @@ ChartJS.register(
 
 const LineGraph = (props) => {
   const [title, setTitle] = useState("");
-  const [datasets, setDatasets] = useState([1, 3]);
+  const [datasets, setDatasets] = useState([]);
 
   useEffect(() => {
     if (props.title) {
@@ -32,11 +32,7 @@ const LineGraph = (props) => {
     }
 
     if (props.datasets) {
-      let array = [];
-      for (let i = 0; i < props.datasets; i++) {
-        array[i] = props.datasets
-      }
-      setDatasets(array);
+      setDatasets(props.datasets);
     }
   }, [props.datasets, props.title])
 
