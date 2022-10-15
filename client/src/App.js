@@ -7,8 +7,10 @@ function App() {
   const [width, setWidth] = useState(600);
   const [datasets, setDatasets] = useState([{ label: "dataset jedna", data: [1, 2, 3, 4] }, { label: "dataset dva", data: [1, 2, 3, 4] }])
   const [title, setTitle] = useState("");
-  const [labelText, setLabelText] = useState("leden, únor")
+  const [labelText, setLabelText] = useState("leden, únor");
   const [labels, setLabels] = useState(["leden", "únor"]);
+  const [dataText, setDataText] = useState("1, 2, 3");
+  const [data, setData] = useState([1, 2, 3]);
 
   useEffect(() => {
 
@@ -23,7 +25,7 @@ function App() {
 
   const openDataset = () => {
     let array = [...datasets];
-    array.push({ label: "nový dataset" });
+    array.push({ label: "nový dataset", data: [1, 2, 3] });
     setDatasets(array);
   }
 
@@ -41,6 +43,12 @@ function App() {
     setLabels(array);
    }
 
+   const updateData = (index, text) => { 
+    let reducedText = text.replaceAll(", ", ",");
+    let array = reducedText.split(",");
+    updateDataset(index, {label: datasets[index].label, data: array});
+    }
+
 
   return (
     <div className="App">
@@ -51,7 +59,8 @@ function App() {
         return (
           <div key={index}>
             <p>{index} {e.label}</p>
-            <input type="text" value={e.label} onChange={(value) => { updateDataset(index, {label: value.target.value}) }} />
+            <input type="text" value={e.label} onChange={(value) => { updateDataset(index, {label: value.target.value, data: e.data}) }} />
+            <input type="text" value={e.data.join(", ")} onChange={(value) => { updateData(index, value.target.value) }} />
             <button onClick={() => { closeDataset(index) }}>Close</button>
           </div>
         )

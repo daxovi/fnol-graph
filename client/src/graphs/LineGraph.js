@@ -66,14 +66,16 @@ const LineGraph = (props) => {
     return orderedData;
   }
 
+  const colors = ['rgba(255, 99, 132, 0.5)', 'rgba(255, 20, 32, 0.5)'];
+
   const data = {
     labels,
-    datasets: datasets.map((item) => {
+    datasets: datasets.map((item, index) => {
       return ({
         label: item.label,
         data: getOrderedData(item.data),
-        borderColor: 'rgb(255, 99, 132)',
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        borderColor: colors[index % colors.length],
+        backgroundColor: colors[index % colors.length],
       })
     }),
   };
