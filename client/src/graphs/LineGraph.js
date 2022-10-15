@@ -25,6 +25,7 @@ ChartJS.register(
 const LineGraph = (props) => {
   const [title, setTitle] = useState("");
   const [datasets, setDatasets] = useState([]);
+  const [labels, setLabels] = useState([]);
 
   useEffect(() => {
     if (props.title) {
@@ -34,7 +35,11 @@ const LineGraph = (props) => {
     if (props.datasets) {
       setDatasets(props.datasets);
     }
-  }, [props.datasets, props.title])
+
+    if (props.labels) {
+      setLabels(props.labels);
+    }
+  }, [props.datasets, props.title, props.labels])
 
   const options = {
     responsive: true,
@@ -49,15 +54,24 @@ const LineGraph = (props) => {
     },
   };
 
-  const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-
+  const getOrderedData = (data) => {
+    let orderedData = [];
+    data.map((number, index) => {
+      if (data.length > labels.length) {
+        orderedData.push(data[data.length - labels.length + index])
+      } else {
+        orderedData.push(number);
+      }
+    })
+    return orderedData;
+  }
 
   const data = {
     labels,
-    datasets: datasets.map(() => {
+    datasets: datasets.map((item) => {
       return ({
-        label: 'Dataset 1',
-        data: labels.map(() => Math.floor(Math.random() * 10)),
+        label: item.label,
+        data: getOrderedData(item.data),
         borderColor: 'rgb(255, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
       })
