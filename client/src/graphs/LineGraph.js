@@ -66,7 +66,7 @@ const LineGraph = (props) => {
     return orderedData;
   }
 
-  const colors = ['rgba(255, 99, 132, 0.5)', 'rgba(255, 20, 32, 0.5)'];
+  const colors = ["#4786c0", "#6ba23e", "#e3a619", "#b31217", "#76a4bd", "#8c9399"];
 
   const data = {
     labels,
