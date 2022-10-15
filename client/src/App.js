@@ -9,8 +9,6 @@ function App() {
   const [title, setTitle] = useState("");
   const [labelText, setLabelText] = useState("leden, únor");
   const [labels, setLabels] = useState(["leden", "únor"]);
-  const [dataText, setDataText] = useState("1, 2, 3");
-  const [data, setData] = useState([1, 2, 3]);
 
   useEffect(() => {
 
