@@ -11,6 +11,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
+import { defaults } from 'chart.js';
 
 ChartJS.register(
   CategoryScale,
@@ -21,6 +22,9 @@ ChartJS.register(
   Tooltip,
   Legend
 );
+
+defaults.font.family = "Open Sans";
+
 
 const LineGraph = (props) => {
   const [title, setTitle] = useState("");
@@ -46,10 +50,18 @@ const LineGraph = (props) => {
     plugins: {
       legend: {
         position: 'top',
+        labels: {
+          boxWidth: 10,
+        }
       },
       title: {
         display: props.title ? true : false,
-        text: title,
+        text: title.toUpperCase(),
+        color: "#244a90",
+        font: {
+          weight: 700,
+          size: 16,
+        }
       },
     },
   };
