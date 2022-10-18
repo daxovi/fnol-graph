@@ -12,6 +12,7 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import { defaults } from 'chart.js';
+import { useParams } from 'react-router-dom';
 
 ChartJS.register(
   CategoryScale,
@@ -27,12 +28,24 @@ defaults.font.family = "Open Sans";
 
 
 const LineGraph = (props) => {
+  let { id } = useParams();
   const [title, setTitle] = useState("");
+  const [showTitle, setShowTitle] = useState(false);
   const [datasets, setDatasets] = useState([]);
   const [labels, setLabels] = useState([]);
 
   useEffect(() => {
+    if (id) {
+      // získej data z DB
+      console.log("DEBUG: Načtený graf ID: " + id);
+      setTitle("Načtený graf");
+      setShowTitle(true);
+      setDatasets([{ label: "dataset jedna", data: [1, 2, 3, 4] }, { label: "dataset dva", data: [3, 1, 4, 2] }]);
+      setLabels(["leden", "únor", "březen", "duben"]);
+    }
+
     if (props.title) {
+      setShowTitle(true);
       setTitle(props.title);
     }
 
@@ -55,7 +68,7 @@ const LineGraph = (props) => {
         }
       },
       title: {
-        display: props.title ? true : false,
+        display: showTitle,
         text: title.toUpperCase(),
         color: "#244a90",
         font: {
