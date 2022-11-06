@@ -20,7 +20,7 @@ database.connect();
  * 
  * Routy - GET
  */
-app.use("/", getGraph);
+app.use("/", cors(), getGraph);
 
 /***
  * ROUTY - POST
