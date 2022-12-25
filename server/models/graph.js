@@ -1,13 +1,16 @@
 const mongoose = require("mongoose");
 
+const data = new mongoose.Schema({
+
+})
+
 const dataset = new mongoose.Schema({
-    name:{type:String},
-    data:{type:String}
+    label:{type:String},
+    data:[Number]
 })
 
 const graph = new mongoose.Schema({
     title:{type:String},
-    width:{type:Number},
     label:{type:String},
     datasets:[dataset],
 })

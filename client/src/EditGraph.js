@@ -6,22 +6,30 @@ import { useParams } from 'react-router-dom';
 import { loadGraph } from './loadGraph';
 
 function EditGraph() {
-  const [width, setWidth] = useState(600);
   const [datasets, setDatasets] = useState([{ label: "dataset jedna", data: [1, 2, 3, 4] }, { label: "dataset dva", data: [1, 2, 3, 4] }])
   const [title, setTitle] = useState("");
   const [labelText, setLabelText] = useState("leden, únor");
   const [labels, setLabels] = useState(["leden", "únor"]);
   const [loaded, setLoaded] = useState(false)
   const [loadedGraph, setLoadedGraph] = useState();
+  const [idGraph, setIdGraph] = useState();
 
   let { id } = useParams();
 
   const updateDB = () => {
     loadGraph().then((value) => {
-      if (value) {
-        console.log(value);
-        setLoadedGraph(value);
-      }
+      value.forEach(element => {
+        if (element._id === id && !loaded) {
+          console.log(element);
+          setLoadedGraph(element);
+          setTitle(element.title);
+          setDatasets(element.datasets);
+          setLabelText(element.label);
+          setLabels(element.label.split(", "));
+          setLoaded(true);
+          setIdGraph(element._id);
+        }
+      });
     });
   }
 
@@ -29,13 +37,8 @@ function EditGraph() {
     if (id && !loaded) {
       updateDB();
       console.log("DEBUG: Načtený graf ID: " + id);
-      setTitle("Načtený graf");
-      setDatasets([{ label: "dataset jedna", data: [1, 2, 3, 4] }, { label: "dataset dva", data: [3, 1, 4, 2] }]);
-      setLabelText("leden, únor, březen, duben");
-      setLabels(["leden", "únor", "březen", "duben"]);
-      setLoaded(true);
     }
-  }, [datasets, loadedGraph])
+  }, [])
 
   const closeDataset = (index) => {
     let array = [...datasets];
@@ -69,21 +72,59 @@ function EditGraph() {
     updateDataset(index, { label: datasets[index].label, data: array });
   }
 
-  const saveGraph = () => {
-    console.log("uložení grafu");
+  const updateGraph = () => {
+    console.log("update grafu");
     console.log("id: " + id);
     console.log("title: " + title);
-    console.log("width: " + width);
     console.log("label: " + labelText);
     console.log("datasets: ");
     console.dir(datasets);
+
+    fetch("http://127.0.0.1:5000/save-graph" + `/${idGraph}`, {
+      method: "PATCH",
+      headers: {
+        "Accept": "application/json",
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify(
+        { title: title, label: labelText, datasets: datasets }
+      )
+    }).then((data) => {
+      return data.json();
+    }).then((finaldata) => {
+      console.log(finaldata);
+    })
   }
 
+  const saveGraph = () => {
+    console.log("uložení nového grafu");
+    console.log("id: " + id);
+    console.log("title: " + title);
+    console.log("label: " + labelText);
+    console.log("datasets: ");
+    console.dir(datasets);
+
+    fetch("http://127.0.0.1:5000/save-graph", {
+      method: "post",
+      headers: {
+        "Accept": "application/json",
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify(
+        { title: title, label: labelText, datasets: datasets }
+      )
+    }).then((data) => {
+      return data.json();
+    }).then((finaldata) => {
+      console.log(finaldata.msg);
+      setIdGraph(finaldata.data);
+    })
+  }
 
   return (
     <div className="App">
       <label>Titulek: <input type="text" value={title} onChange={(e) => { setTitle(e.target.value) }} /></label> <br />
-      <label>Šířka grafu: <input type="number" value={width} onChange={(e) => { setWidth(e.target.value) }} /></label> <br />
+      <label>Id: {idGraph}</label> <br />
       <label>Label: <input type="text" value={labelText} onChange={(e) => { updateLabel(e.target.value) }} /></label> <br />
       {datasets.map((e, index) => {
         return (
@@ -96,8 +137,8 @@ function EditGraph() {
         )
       })}
       <button onClick={() => { openDataset() }}>Add new</button>
-      <button onClick={() => { saveGraph() }}>Uložit graf</button>
-      <div style={{ display: "block", width: width + "px" }} >
+      <button onClick={() => { idGraph ? updateGraph() : saveGraph() }}>Uložit graf</button>
+      <div style={{ display: "block"}} >
         <LineGraph datasets={datasets} title={title} labels={labels} />
 
       </div>

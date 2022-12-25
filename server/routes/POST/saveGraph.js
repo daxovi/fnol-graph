@@ -2,21 +2,20 @@ const saveGraph = require("express").Router();
 const modelGraph = require("../../models/graph");
 
 saveGraph.post("/save-graph", (req, res) => {
-    const { title, width, label, datasets } = req.body;
+    const { title, label, datasets } = req.body;
     const graph = new modelGraph({
         title: title,
-        width: width,
         label: label,
         datasets: datasets,
     })
     graph.save((err, document) => {
         if (err) {
             return res.json({
-                msg: "Bohužel nedošlo k vytvoření uživatele"
+                msg: `Bohužel nedošlo k vytvoření uživatele ${JSON.stringify(document)}`
             })
         } else {
             return res.json({
-                msg: `Došlo k úspěšnému vytvoření uživatele ${JSON.stringify(document)}`
+                msg: `Došlo k úspěšnému vytvoření uživatele`, data: `${document._id}`
             })
         }
     })

@@ -13,6 +13,7 @@ import {
 import { Line } from 'react-chartjs-2';
 import { defaults } from 'chart.js';
 import { useParams } from 'react-router-dom';
+import { loadGraph } from '../loadGraph';
 
 ChartJS.register(
   CategoryScale,
@@ -26,7 +27,6 @@ ChartJS.register(
 
 defaults.font.family = "Open Sans";
 
-
 const LineGraph = (props) => {
   let { id } = useParams();
   const [title, setTitle] = useState("");
@@ -35,13 +35,22 @@ const LineGraph = (props) => {
   const [labels, setLabels] = useState([]);
 
   useEffect(() => {
-    if (id) {
+    if (id && !props.datasets) {
       // získej data z DB
       console.log("DEBUG: Načtený graf ID: " + id);
-      setTitle("Načtený graf");
-      setShowTitle(true);
-      setDatasets([{ label: "dataset jedna", data: [1, 2, 3, 4] }, { label: "dataset dva", data: [3, 1, 4, 2] }]);
-      setLabels(["leden", "únor", "březen", "duben"]);
+      loadGraph().then((value) => {
+        value.forEach(element => {
+          if (element._id === id) {
+            console.log(element);
+            if (element.title.length > 0) {
+              setTitle(element.title);
+              setShowTitle(true);
+            }
+            setDatasets(element.datasets);
+            setLabels(element.label.split(", "));
+          }
+        });
+      });
     }
 
     if (props.title) {
