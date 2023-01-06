@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.main-color {
+    background: #00509E;
+    color: white;
+    padding: 0.5em 0px 2em;
+}
+
+.content {
+    max-width: 1024px;
+    margin: 0px auto;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    color: white;
+    gap: 10px;
+}
+
+.header h1 {
+    font-weight: normal;
+    font-size: 1.5em;
+    margin: 0.4em 0;
+}
+
+.settings {
+    padding: 2em 0 0.5em;
+    display: flex;
+    width: 100%;
+    gap: 0.5em;
+    font-size: 1.5em;
+}
+
+.settings input {
+    flex-grow: 1;
+    font-size: 1em;
+}
+
+.low-color {
+    background: #EBEFF5;
+    padding: 2em 0px;
+}
+
+.row {
+    display: flex;
+    width: 100%;
+    gap: 0.5em;
+}
+
+.row input {
+    width: 100%;
+}
+
+table {
+    width: 100%;
+    text-align: left;
+}
+tr {
+    width: 100%;
+}
+
+th, td {
+    padding: 0px;
+    margin: 0px;
+}
+
+table input {
+    width: 98%;
+    gap: 0.5em;
+}
+
+.close {
+    display: flex;
+    flex-shrink: 1;
+}
+
+.table {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr min-content;
+}

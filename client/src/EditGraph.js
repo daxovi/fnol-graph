@@ -4,6 +4,7 @@ import LineGraph from './graphs/LineGraph';
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { loadGraph } from './loadGraph';
+import './EditGraph.css';
 
 function EditGraph() {
   const [datasets, setDatasets] = useState([{ label: "dataset jedna", data: [1, 2, 3, 4] }, { label: "dataset dva", data: [1, 2, 3, 4] }])
@@ -123,25 +124,72 @@ function EditGraph() {
 
   return (
     <div className="App">
-      <label>Titulek: <input type="text" value={title} onChange={(e) => { setTitle(e.target.value) }} /></label> <br />
-      <label>Id: {idGraph}</label> <br />
-      <label>Label: <input type="text" value={labelText} onChange={(e) => { updateLabel(e.target.value) }} /></label> <br />
-      {datasets.map((e, index) => {
-        return (
-          <div key={index}>
-            <p>{index} {e.label}</p>
-            <input type="text" value={e.label} onChange={(value) => { updateDataset(index, { label: value.target.value, data: e.data }) }} />
-            <input type="text" value={e.data.join(", ")} onChange={(value) => { updateData(index, value.target.value) }} />
-            <button onClick={() => { closeDataset(index) }}>Close</button>
+      <div className="main-color">
+        <div className="content">
+          <div className="header">
+            <img src="fnol.svg" alt="" />
+            <h1>Editace grafu</h1>
           </div>
-        )
-      })}
-      <button onClick={() => { openDataset() }}>Add new</button>
+          <div className="settings">
+            <label for="last_name">Titulek: </label>
+            <input name="last_name" type="text" value={title} onChange={(e) => { setTitle(e.target.value) }} />
+
+            <label for="last_name">Kód pro vložení: </label>
+            <input name="last_name" type="text" value={title} onChange={(e) => { setTitle(e.target.value) }} />
+          </div>
+        </div>
+      </div>
+      <div className="low-color">
+        <div className="content">
+          <div className="row">
+            <label for="label">Label:</label> <input name='label' type="text" value={labelText} onChange={(e) => { updateLabel(e.target.value) }} />
+          </div>
+        </div>
+      </div>
+      <div className="low-color">
+        <div className="content">
+          <table>
+            <tr>
+              <td>název datasetu</td>
+              <td>hodnoty</td>
+              <td></td>
+            </tr>
+            {datasets.map((e, index) => {
+            return (
+              <tr key={index}>
+                <td><input type="text" value={e.label} onChange={(value) => { updateDataset(index, { label: value.target.value, data: e.data }) }} /></td>
+                <td><input type="text" value={e.data.join(", ")} onChange={(value) => { updateData(index, value.target.value) }} /></td>
+                <td className='close'><a href='#' onClick={() => { closeDataset(index) }}>vymazat dataset</a></td>
+              </tr>
+            )
+          })}
+          </table>
+
+          <div className="table">
+            <div className="">název datasetu</div>
+            <div className="">hodnoty</div>
+            <div className=""></div>
+            {datasets.map((e, index) => {
+            return (
+              <div key={index}>
+                <div><input type="text" value={e.label} onChange={(value) => { updateDataset(index, { label: value.target.value, data: e.data }) }} /></div>
+                <div><input type="text" value={e.data.join(", ")} onChange={(value) => { updateData(index, value.target.value) }} /></div>
+                <div className='close'><a href='#' onClick={() => { closeDataset(index) }}>vymazat dataset</a></div>
+              </div>
+            )
+          })}
+          </div>
+          
+          <button onClick={() => { openDataset() }}>Add new</button>
+        </div>
+      </div>
+
       <button onClick={() => { idGraph ? updateGraph() : saveGraph() }}>Uložit graf</button>
-      <div style={{ display: "block"}} >
+      <div style={{ display: "block" }} >
         <LineGraph datasets={datasets} title={title} labels={labels} />
 
       </div>
+      <div className="footer"><label>Id: {idGraph}</label> <br /></div>
     </div>
   );
 }
