@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import { loadGraph } from './loadGraph';
 import './EditGraph.css';
 
+
 function EditGraph() {
   const [datasets, setDatasets] = useState([{ label: "dataset jedna", data: [1, 2, 3, 4] }, { label: "dataset dva", data: [1, 2, 3, 4] }])
   const [title, setTitle] = useState("");
@@ -137,58 +138,45 @@ function EditGraph() {
             <label for="last_name">Kód pro vložení: </label>
             <input name="last_name" type="text" value={title} onChange={(e) => { setTitle(e.target.value) }} />
           </div>
+          <button onClick={() => { idGraph ? updateGraph() : saveGraph() }}>Uložit graf</button>
+
         </div>
       </div>
       <div className="low-color">
         <div className="content">
           <div className="row">
-            <label for="label">Label:</label> <input name='label' type="text" value={labelText} onChange={(e) => { updateLabel(e.target.value) }} />
+            <label for="label">Legenda na ose X:</label> <input name='label' type="text" value={labelText} onChange={(e) => { updateLabel(e.target.value) }} />
           </div>
         </div>
       </div>
       <div className="low-color">
         <div className="content">
-          <table>
-            <tr>
-              <td>název datasetu</td>
-              <td>hodnoty</td>
-              <td></td>
-            </tr>
-            {datasets.map((e, index) => {
-            return (
-              <tr key={index}>
-                <td><input type="text" value={e.label} onChange={(value) => { updateDataset(index, { label: value.target.value, data: e.data }) }} /></td>
-                <td><input type="text" value={e.data.join(", ")} onChange={(value) => { updateData(index, value.target.value) }} /></td>
-                <td className='close'><a href='#' onClick={() => { closeDataset(index) }}>vymazat dataset</a></td>
-              </tr>
-            )
-          })}
-          </table>
-
           <div className="table">
-            <div className="">název datasetu</div>
-            <div className="">hodnoty</div>
+            <div className="">Název datasetu</div>
+            <div className="">Hodnoty</div>
             <div className=""></div>
-            {datasets.map((e, index) => {
+          </div>
+          {datasets.map((e, index) => {
             return (
-              <div key={index}>
+              <div className='table' key={index}>
                 <div><input type="text" value={e.label} onChange={(value) => { updateDataset(index, { label: value.target.value, data: e.data }) }} /></div>
                 <div><input type="text" value={e.data.join(", ")} onChange={(value) => { updateData(index, value.target.value) }} /></div>
-                <div className='close'><a href='#' onClick={() => { closeDataset(index) }}>vymazat dataset</a></div>
+                <div className='close'><a href='#' onClick={() => { closeDataset(index) }}><i class="bi bi-x"></i> vymazat dataset</a></div>
               </div>
             )
           })}
+
+          <div className="table">
+            <a href='#' onClick={() => { openDataset() }}><i class="bi bi-plus-circle"></i> přidat dataset</a>
           </div>
-          
-          <button onClick={() => { openDataset() }}>Add new</button>
         </div>
       </div>
-
-      <button onClick={() => { idGraph ? updateGraph() : saveGraph() }}>Uložit graf</button>
-      <div style={{ display: "block" }} >
+      <div className="low-color"></div>
+      <div className="content graph">
         <LineGraph datasets={datasets} title={title} labels={labels} />
 
       </div>
+
       <div className="footer"><label>Id: {idGraph}</label> <br /></div>
     </div>
   );
