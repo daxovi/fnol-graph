@@ -1,8 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css");
 
 body {
     font-family: 'Open Sans', sans-serif;
+    background-color: #344452;
 }
 
 .main-color {
@@ -14,9 +15,12 @@ body {
 .content {
     max-width: 1024px;
     margin: 0px auto;
-    text-align: left;
+    padding: 0em 2vw;
 }
 
+.content--white {
+    background-color: white;
+}
 .header {
     display: flex;
     flex-direction: row;
@@ -31,11 +35,16 @@ body {
 }
 
 .settings {
-    padding: 2em 0 0.5em;
+    padding: 2em 0 1em;
     display: flex;
     width: 100%;
     gap: 0.5em;
     font-size: 1.5em;
+    
+}
+
+.save {
+    text-align: left;
 }
 
 .settings input {
@@ -57,28 +66,31 @@ body {
 
 .row input {
     width: 100%;
-}
-
-table {
-    width: 100%;
-    text-align: left;
-}
-tr {
-    width: 100%;
-}
-
-th, td {
-    padding: 0px;
-    margin: 0px;
+    box-sizing: border-box;
 }
 
 .table input {
-    width: 98%;
-    gap: 0.5em;
+    box-sizing: border-box;
+    width: 100%;
 }
 
 .close {
     white-space: nowrap;
+
+}
+
+.btn-low {
+    text-decoration: none;
+    font-size: 0.8em;
+}
+
+.btn-low__delete {
+    color: #FF0800;
+}
+
+.btn-low__new {
+    color: #17C3E6;
+    padding-top: 0.5em;
 }
 
 .table {
@@ -86,10 +98,66 @@ th, td {
     display: grid;
     grid-template-columns: 1fr 3fr 130px;
     text-align: left;
-    column-gap: 0.5em;
+    column-gap: 0.2em;
     padding-bottom: 0.2em;
 }
 
 .graph {
-    width: 50%;
+    max-width: 100%;
+    padding: 2em 5em;
+}
+
+.btn-hi {
+    background-color: #17C3E6;
+    border: none;
+    padding: 0.5em 2em;
+    border-radius: 0.2em;
+    color: #00509E;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.footer {
+    background-color: #344452;
+    padding: 2em 0em;
+    color: #B8BEC3;
+    text-align: left;
+
+}   
+.mobile {
+    display: none;
+}
+
+@media screen and (max-width: 900px) {
+    .settings {
+        flex-direction: column;
+        text-align: left;
+    }
+
+    .table {
+        grid-template-columns: 1fr;
+        padding-bottom: 0.5em;
+    }
+
+    .mobile {
+        display: block;
+        padding-top: 0.5em;
+    }
+
+    .non-mobile {
+        display: none;
+    }
+
+    .row {
+        flex-direction: column;
+        text-align: left;
+    }
+
+    .graph {
+        max-width: 100%;
+        padding: 2em 0em;
+    }
+
+
 }

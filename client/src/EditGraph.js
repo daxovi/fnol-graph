@@ -132,13 +132,16 @@ function EditGraph() {
             <h1>Editace grafu</h1>
           </div>
           <div className="settings">
-            <label for="last_name">Titulek: </label>
+            <label for="last_name">Název: </label>
             <input name="last_name" type="text" value={title} onChange={(e) => { setTitle(e.target.value) }} />
 
             <label for="last_name">Kód pro vložení: </label>
             <input name="last_name" type="text" value={title} onChange={(e) => { setTitle(e.target.value) }} />
           </div>
-          <button onClick={() => { idGraph ? updateGraph() : saveGraph() }}>Uložit graf</button>
+          <div className="save">
+          <button className='btn-hi' onClick={() => { idGraph ? updateGraph() : saveGraph() }}>Uložit graf</button>
+
+          </div>
 
         </div>
       </div>
@@ -152,32 +155,43 @@ function EditGraph() {
       <div className="low-color">
         <div className="content">
           <div className="table">
-            <div className="">Název datasetu</div>
-            <div className="">Hodnoty</div>
-            <div className=""></div>
+            <div className="non-mobile">Název datasetu</div>
+            <div className="non-mobile">Hodnoty</div>
+            <div className="non-mobile"></div>
           </div>
           {datasets.map((e, index) => {
             return (
               <div className='table' key={index}>
+                <div className="mobile">Název datasetu</div>
                 <div><input type="text" value={e.label} onChange={(value) => { updateDataset(index, { label: value.target.value, data: e.data }) }} /></div>
+                <div className="mobile">Hodnoty</div>
                 <div><input type="text" value={e.data.join(", ")} onChange={(value) => { updateData(index, value.target.value) }} /></div>
-                <div className='close'><a href='#' onClick={() => { closeDataset(index) }}><i class="bi bi-x"></i> vymazat dataset</a></div>
+                <div className='close'><a className='btn-low btn-low__delete' href='#' onClick={() => { closeDataset(index) }}><i class="bi bi-x"></i> vymazat dataset</a></div>
               </div>
             )
           })}
 
           <div className="table">
-            <a href='#' onClick={() => { openDataset() }}><i class="bi bi-plus-circle"></i> přidat dataset</a>
+            <a className='btn-low btn-low__new' href='#' onClick={() => { openDataset() }}><i class="bi bi-plus-circle"></i> přidat dataset</a>
           </div>
         </div>
       </div>
       <div className="low-color"></div>
-      <div className="content graph">
+      <div className="content--white">
+      <div className="content">
+      <div className="graph">
         <LineGraph datasets={datasets} title={title} labels={labels} />
 
       </div>
+      </div>
+      </div>
+      
 
-      <div className="footer"><label>Id: {idGraph}</label> <br /></div>
+
+      <div className="footer">
+        <div className="content">
+        <label>Id: {idGraph}</label>
+          </div></div>
     </div>
   );
 }
