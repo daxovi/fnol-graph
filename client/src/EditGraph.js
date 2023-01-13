@@ -1,4 +1,3 @@
-import './App.css';
 import "./graphs/LineGraph";
 import LineGraph from './graphs/LineGraph';
 import React, { useState, useEffect } from 'react';
@@ -8,13 +7,14 @@ import './EditGraph.css';
 
 
 function EditGraph() {
-  const [datasets, setDatasets] = useState([{ label: "dataset jedna", data: [1, 2, 3, 4] }, { label: "dataset dva", data: [1, 2, 3, 4] }])
+  const [datasets, setDatasets] = useState([{ label: "dataset jedna", data: Array.from({length: 12}, () => Math.floor(Math.random() * 20)) }, { label: "dataset dva", data: Array.from({length: 12}, () => Math.floor(Math.random() * 20)) }])
   const [title, setTitle] = useState("");
-  const [labelText, setLabelText] = useState("leden, únor");
-  const [labels, setLabels] = useState(["leden", "únor"]);
+  const [labelText, setLabelText] = useState("leden, únor, březen, duben, červen, červenec, srpen, září, říjen, listopad, prosinec");
+  const [labels, setLabels] = useState(["leden", "únor", "březen", "duben", "červen", "červenec", "srpen", "září", "říjen", "listopad", "prosinec" ]);
   const [loaded, setLoaded] = useState(false)
   const [loadedGraph, setLoadedGraph] = useState();
   const [idGraph, setIdGraph] = useState();
+  const [editing, setEditing] = useState(false);
 
   let { id } = useParams();
 
@@ -42,6 +42,14 @@ function EditGraph() {
     }
   }, [])
 
+  const typewatch = function () {
+    var timer = 0;
+    return function (callback, ms) {
+      clearTimeout(timer);
+      timer = setTimeout(callback, ms);
+    }
+  }();
+
   const closeDataset = (index) => {
     let array = [...datasets];
     array.splice(index, 1)
@@ -50,7 +58,7 @@ function EditGraph() {
 
   const openDataset = () => {
     let array = [...datasets];
-    array.push({ label: "nový dataset", data: [1, 2, 3] });
+    array.push({ label: "nový dataset", data: Array.from({length: 12}, () => Math.floor(Math.random() * 20)) });
     setDatasets(array);
   }
 
@@ -128,7 +136,7 @@ function EditGraph() {
       <div className="main-color">
         <div className="content">
           <div className="header">
-            <img src="fnol.svg" alt="" />
+            <img src="http://127.0.0.1:3000/fnol.svg" alt="" />
             <h1>Editace grafu</h1>
           </div>
           <div className="settings">
@@ -136,10 +144,10 @@ function EditGraph() {
             <input name="last_name" type="text" value={title} onChange={(e) => { setTitle(e.target.value) }} />
 
             <label for="last_name">Kód pro vložení: </label>
-            <input name="last_name" type="text" value={title} onChange={(e) => { setTitle(e.target.value) }} />
+            <input name="last_name" type="text" value={idGraph} onChange={(e) => { setTitle(e.target.value) }} />
           </div>
           <div className="save">
-          <button className='btn-hi' onClick={() => { idGraph ? updateGraph() : saveGraph() }}>Uložit graf</button>
+            <button className='btn-hi' onClick={() => { idGraph ? updateGraph() : saveGraph() }}>Uložit graf</button>
 
           </div>
 
@@ -166,7 +174,7 @@ function EditGraph() {
                 <div><input type="text" value={e.label} onChange={(value) => { updateDataset(index, { label: value.target.value, data: e.data }) }} /></div>
                 <div className="mobile">Hodnoty</div>
                 <div><input type="text" value={e.data.join(", ")} onChange={(value) => { updateData(index, value.target.value) }} /></div>
-                <div className='close'><a className='btn-low btn-low__delete' href='#' onClick={() => { closeDataset(index) }}><i class="bi bi-x"></i> vymazat dataset</a></div>
+                <div className='close'><a className='btn-low btn-low__delete' href='#' onClick={() => { closeDataset(index) }}><i class="bi bi-x"></i> odstranit dataset</a></div>
               </div>
             )
           })}
@@ -178,20 +186,20 @@ function EditGraph() {
       </div>
       <div className="low-color"></div>
       <div className="content--white">
-      <div className="content">
-      <div className="graph">
-        <LineGraph datasets={datasets} title={title} labels={labels} />
+        <div className="content">
+          <div className="graph">
+            <LineGraph datasets={datasets} title={title} labels={labels} />
 
+          </div>
+        </div>
       </div>
-      </div>
-      </div>
-      
+
 
 
       <div className="footer">
         <div className="content">
-        <label>Id: {idGraph}</label>
-          </div></div>
+          <label>Id: {idGraph}</label>
+        </div></div>
     </div>
   );
 }

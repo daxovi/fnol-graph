@@ -14,6 +14,7 @@ import { Line } from 'react-chartjs-2';
 import { defaults } from 'chart.js';
 import { useParams } from 'react-router-dom';
 import { loadGraph } from '../loadGraph';
+import './LineGraph.css';
 
 ChartJS.register(
   CategoryScale,
